@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+
+#  The LAMP Stack Application ISAC_Internship 
+  app:
+    container_name: isca_internship
+    build:
+      context: ./
+      dockerfile: development/app.dockerfile
+    volumes:
+      - ./html:/var/www/html/
+    environment:
+      - "DB_HOST=database"
+    ports:
+      - 80:80
+
+# The Database
+  database:
+    container_name: mysql_database
+    image: mysql:8
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=abcchef"
+      - "MYSQL_USER=abchef"
+      - "MYSQL_PASSWORD=abChef"
+      - "MYSQL_ROOT_PASSWORD=root"
+    ports:
+      - 3306:3306
+
+volumes:
+  dbdata:
+
